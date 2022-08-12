@@ -10,5 +10,11 @@ The `ntUtils` folder contains the following subroutines:
 
 ## The `symCipher` folder
 The `symCipher` folder contains some symmetric ciphers:
-- `CaesarCipher` implements a shift cipher for any alphabet (also, is case sensitive).
+- `CaesarCipher` implements a shift cipher for any alphabet.
+    - Contains a simple bruteforce attack.
 - `VigenereCipher` implements a shift cipher with multiple keys.
+    - (WIP) Contains the Kariski attack.
+- `XOR` implements a XOR cipher.
+- `MonoalphabeticCipher` implements a permutation cipher.
+    - (WIP) Contains a frequency analysis tool and the Hart attack.
+
