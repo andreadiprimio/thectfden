@@ -1,4 +1,5 @@
 import errors
+import sys
 
 class CaesarCipher():
 
@@ -8,7 +9,7 @@ class CaesarCipher():
     """
 
     def __init__(self, key = 0): # sets key and useful variables
-        self.__key = key 
+        self.__key = self.setKey(key) 
         self.__alphabet = "abcdefghijklmnopqrstuvwxyz"
         self.__bypassSet = {' ','0','1','2','3','4','5','6','7','8','9'}
         self.__alphabetSize = 26
@@ -19,6 +20,7 @@ class CaesarCipher():
             self.__key = int(key)
         except TypeError:
             print("[Caesar Cipher Error]: Key must be a positive or negative integer (or convertible).")
+            sys.exit(1)
 
     def setAlphabet(self, alphabet): # sets alphabet
         try:
@@ -28,6 +30,7 @@ class CaesarCipher():
             self.__bfAttack = dict.fromkeys(range(1, self.__alphabetSize))
         except TypeError:
             print("[Caesar Cipher Error]: Alphabet must be a string (or convertible).")
+            sys.exit(1)
 
     def insertBypass(self, ch):
         try:
@@ -37,6 +40,7 @@ class CaesarCipher():
                 raise errors.InvalidLengthError("[Caesar Cipher Error] The string (or convertible) should consist of a single character.")
         except TypeError:
             print("[Caesar Cipher Error] The argument should be a string (or convertible).")
+            sys.exit(1)
     
     def removeBypass(self, ch):
         try:
@@ -46,6 +50,7 @@ class CaesarCipher():
                 raise errors.InvalidLengthError("[Caesar Cipher Error] The string (or convertible) should consist of a single character.")
         except TypeError:
             print("[Caesar Cipher Error] The argument should be a string (or convertible).")
+            sys.exit(1)
 
     def encrypt(self, string, results=True):
         try:
@@ -53,6 +58,7 @@ class CaesarCipher():
             self.__ciphertext = ""
         except TypeError:
             print("[Caesar Cipher Error]: Plaintext must be a string (or convertible).")
+            sys.exit(1)
         for ch in self.__plaintext:
             new_ch = ''
             if ch not in self.__bypassSet:
@@ -80,6 +86,7 @@ class CaesarCipher():
             self.__plaintext = ""
         except TypeError:
             print("[Caesar Cipher Error]: Ciphertext must be a string (or convertible).")
+            sys.exit(1)
         for ch in self.__ciphertext:
             new_ch = ''
             if ch not in self.__bypassSet:
@@ -115,6 +122,7 @@ class CaesarCipher():
             self.__plaintext = ""
         except TypeError:
             print("[Caesar Cipher Error]: Ciphertext must be a string (or convertible).")
+            sys.exit(1)
         if filename != "":
             f = open(filename, 'w')
         for k in range(1, self.__alphabetSize):

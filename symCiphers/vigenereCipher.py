@@ -1,5 +1,6 @@
 import errors
 import sys 
+import re
 
 class VigenereCipher():
 
@@ -14,6 +15,7 @@ class VigenereCipher():
             autokey = bool(autokey)
         except TypeError:
             print("[Vigenere Cipher Error] Key should be a string and autokey a boolean.")
+            sys.exit(1)
         self.__bypassSet = {' ','0','1','2','3','4','5','6','7','8','9'}
         self.__alphabet = "abcdefghijklmnopqrstuvwxyz"
         self.__alphabetSize = 26  
@@ -156,7 +158,29 @@ class VigenereCipher():
         print("Plaintext: " + self.__plaintext)
         return
 
+    def kasiskiAttack(self, string, n):
+        try:
+            n = int(n)
+            if n < 2:
+                raise TypeError
+            self.__ciphertext = str(string)
+            self.__plaintext = ""
+        except TypeError:
+            print("[Vigenere Cipher Error] Ciphertext should be a string (or convertible) and length a positive integer.") 
+            sys.exit(1)
+        pattern = r'^.*?(.{' + str(n) + r'})(?:.*?\1)+$'
+        match = re.findall(pattern, string)
+        print(match)
+        # FInd all repeating substrings of length N
+        # Find distance between them
+        # Get key length guess
+
+        
+
+
+
 #p = "isvf yi eyfir yai khne ioxtn1234"
 #s = "Isvf is rrpsi fds Kaco Gmnhp1234"
-#CC = VigenereCipher("worm", autokey=True)
+CC = VigenereCipher("worm", autokey=True)
+CC.kasiskiAttack("ABAACDCDABEFABCDEF", 2)
 #CC.decrypt(p)
