@@ -1,2 +1,0 @@
-class InvalidLengthError(Exception):
-    pass

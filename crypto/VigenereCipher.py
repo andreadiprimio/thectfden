@@ -1,4 +1,4 @@
-import errors
+from . import errors
 import sys 
 import re
 
@@ -13,7 +13,7 @@ class VigenereCipher():
         try:
             key = str(key)
             autokey = bool(autokey)
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error] Key should be a string and autokey a boolean.")
             sys.exit(1)
         self.__bypassSet = {' ','0','1','2','3','4','5','6','7','8','9'}
@@ -41,26 +41,32 @@ class VigenereCipher():
     def setKey(self, key): # sets key
         try:
             self.__key = self.__getKeyData(key) 
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error] Key must be a string.")
             sys.exit(1)
 
     def setAlphabet(self, alphabet): # sets alphabet
         try:
             self.__alphabet = str(alphabet)
-            self.__alphabetSize = len(self.__alphabet)
             print("Alphabet set to " + self.__alphabet + ".")
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error]: Alphabet must be a string (or convertible).")
             sys.exit(1)
-
+        self.__alphabet = ""
+        s = set()
+        for ch in str(alphabet):
+            s.add(ch)
+        self.__alphabetSize = len(self.__alphabet)
+        for ch in s:
+            self.__alphabet = self.__alphabet + ch
+        
     def insertBypass(self, ch):
         try:
             if (len(ch) == 1):
                 self.__bypassSet.add(str(ch))
             else:
                 raise errors.InvalidLengthError("[Vigenere Cipher Error] The string (or convertible) should consist of a single character.")
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error] The argument should be a string (or convertible).")
             sys.exit(1)
     
@@ -70,14 +76,14 @@ class VigenereCipher():
                 self.__bypassSet.remove(str(ch))
             else:
                 raise errors.InvalidLengthError("[Vigenere Cipher Error] The string (or convertible) should consist of a single character.")
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error] The argument should be a string (or convertible).")
 
     def encrypt(self, string, results=True):
         try:
             self.__plaintext = str(string)
             self.__ciphertext = ""
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error]: Plaintext must be a string (or convertible).")
             sys.exit(1)
         if self.__autokey:
@@ -116,7 +122,7 @@ class VigenereCipher():
         try:
             self.__ciphertext = str(string)
             self.__plaintext = ""
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error]: Ciphertext must be a string (or convertible).")
             sys.exit(1)
         bypassCtr = 0
@@ -138,7 +144,7 @@ class VigenereCipher():
                         new_ch = self.__alphabet[(idx - self.__key[idx2]) % self.__alphabetSize]
                     if self.__autokey:
                         self.__key.append((idx - self.__key[idx2]) % self.__alphabetSize)
-                except:
+                except ValueError:
                     new_ch = ch 
                     bypassCtr = bypassCtr + 1
                     print("[Vigenere Cipher Warning] Bypassed character ", ch, " not in alphabet.")                  
@@ -158,22 +164,28 @@ class VigenereCipher():
         print("Plaintext: " + self.__plaintext)
         return
 
-    def kasiskiAttack(self, string, n):
+    def kasiskiAttack(self, string, n, filename = ""):
         try:
             n = int(n)
             if n < 2:
                 raise TypeError
             self.__ciphertext = str(string)
             self.__plaintext = ""
-        except TypeError:
+        except ValueError:
             print("[Vigenere Cipher Error] Ciphertext should be a string (or convertible) and length a positive integer.") 
             sys.exit(1)
-        pattern = r'^.*?(.{' + str(n) + r'})(?:.*?\1)+$'
+        pattern = r'(?=(.{' + str(n) + r'})(.*?)\1)'
         match = re.findall(pattern, string)
-        print(match)
-        # FInd all repeating substrings of length N
-        # Find distance between them
-        # Get key length guess
+        if filename != "":
+            f = open(filename, 'a')  
+        for i in range(len(match)):
+            match[i] = [match[i][0], len(match[i][1]) + 1]
+            if filename != "":
+                f.write(match[i])
+                f.write('\n')
+            else:
+                print(match[i])
+        return match
 
         
 
@@ -181,6 +193,6 @@ class VigenereCipher():
 
 #p = "isvf yi eyfir yai khne ioxtn1234"
 #s = "Isvf is rrpsi fds Kaco Gmnhp1234"
-CC = VigenereCipher("worm", autokey=True)
-CC.kasiskiAttack("ABAACDCDABEFABCDEF", 2)
+#CC = VigenereCipher("worm", autokey=True)
+#CC.kasiskiAttack("eiwemc kj rwx gjfpi ht eiwemciiyeam", 6)
 #CC.decrypt(p)

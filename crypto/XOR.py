@@ -1,4 +1,3 @@
-import errors
 import sys
 
 class XOR():
@@ -11,16 +10,15 @@ class XOR():
         try:
             self.__key = str(key)
             self.__keySize = len(self.__key)
-        except TypeError:
+        except ValueError:
             print("[XOR Cipher Error] Key should be a string (or convertible).")
             sys.exit(1)
         
-
     def encrypt(self, string, results=True):
         try:
             self.__plaintext = str(string)
             self.__ciphertext = ""
-        except TypeError:
+        except ValueError:
             print("[XOR Cipher Error]: Plaintext must be a string (or convertible).")
             sys.exit(1)
         for i in range(len(self.__plaintext)):
@@ -37,7 +35,7 @@ class XOR():
         try:
             self.__ciphertext = str(string)
             self.__plaintext = ""
-        except TypeError:
+        except ValueError:
             print("[XOR Cipher Error]: Plaintext must be a string (or convertible).")
             sys.exit(1)
         for i in range(len(self.__ciphertext)):

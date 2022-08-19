@@ -1,6 +1,3 @@
-from typing import Type
-
-
 def ExtendedEuclid(a, b):
     """
     Solves the equation ax + by = gcd(a,b) for integer a, b, x, y.
