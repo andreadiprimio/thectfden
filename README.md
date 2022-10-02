@@ -7,9 +7,10 @@ The `tools` folder contains the following subroutines:
 - `ExtendedEuclid` solves any linear 2-variable diophantine equation.
 - `CRT` solves any system of modular equations by means of the CRT theorem.
 - `MillerRabin` is a stochastic test for primality.
+- `FrequencyAnalyzer` analyzes character frequency of a string.
 
 ## The `crypto` folder
-The `symCipher` folder contains some symmetric ciphers:
+The `crypto` folder contains the following ciphers:
 - `CaesarCipher` implements a shift cipher for any alphabet.
     - Contains a simple bruteforce attack.
 - `VigenereCipher` implements a shift cipher with multiple keys.
@@ -20,8 +21,9 @@ The `symCipher` folder contains some symmetric ciphers:
 - ``
 
 ## The `test` folder
-The `test` folder contains some examples of driver code for using this library.
+The `test` folder contains some examples of driver code for using this library. Run the examples as follows:
 
-## How to use
-The code is still under development. In order to run a custom driver code, it is advised to put it _outside_ the project folder.
+`python3 -m thectfden.test.filename`
+
+from outside the project.
 
